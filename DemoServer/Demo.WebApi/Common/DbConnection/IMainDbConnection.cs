@@ -1,6 +1,8 @@
-﻿namespace WebApiServer.Common.DbConnection
+﻿using System.Data;
+
+namespace WebApiServer.Common.DbConnection
 {
-    public class IMainDbConnection
+    public interface IMainDbConnection : IDbConnection
     {
         
     }

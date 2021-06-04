@@ -1,4 +1,7 @@
-﻿$HEADER$namespace $NAMESPACE$
+﻿namespace WebApiServer.Common.Configuration
 {
-  public class $CLASS$ {$END$}
+    public class ConfigurationModel
+    {
+        public string MainDatabase { get; set; }
+    }
 }
