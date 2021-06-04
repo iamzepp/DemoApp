@@ -1,7 +1,14 @@
-﻿namespace WebApiServer.Common.Configuration
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Demo.WebApi.Common.Configuration
 {
-    public class ConfigurationModel
+    public class ConfigurationModel : IConfig
     {
-        public string MainDatabase { get; set; }
+        public string MainDbConnectionString { get; set; }
+        
+        public void Validate()
+        {
+            if (string.IsNullOrEmpty(MainDbConnectionString)) throw new ValidationException("MainDbConnectionString is null or empty");
+        }
     }
 }

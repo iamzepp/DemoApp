@@ -1,6 +1,6 @@
 ﻿using System.Data;
 
-namespace WebApiServer.Common.DbConnection
+namespace Demo.WebApi.Common.DbConnection
 {
     public interface IMainDbConnection : IDbConnection
     {

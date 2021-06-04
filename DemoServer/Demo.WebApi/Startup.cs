@@ -12,10 +12,10 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Npgsql;
-using WebApiServer.Common.Configuration;
-using WebApiServer.Common.DbConnection;
+using Demo.WebApi.Common.Configuration;
+using Demo.WebApi.Common.DbConnection;
 
-namespace WebApiServer
+namespace Demo.WebApi
 {
     public class Startup
     {
@@ -34,6 +34,8 @@ namespace WebApiServer
             {
                 c.SwaggerDoc("v1", new OpenApiInfo {Title = "Demo.WebApi", Version = "v1"});
             });
+
+            RegisterInjections(services, Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -57,14 +59,11 @@ namespace WebApiServer
 
         public void RegisterInjections(IServiceCollection services, IConfiguration configuration)
         {
-            var dataSourceSectionName = "DataSource";
-            var dataSourceConfiguration = configuration.GetSection(dataSourceSectionName).Get<ConfigurationModel>() 
-                                          ?? throw new KeyNotFoundException($"Not found {dataSourceSectionName} section");
-
-            var mainDbConnectionString = dataSourceConfiguration.MainDatabase 
-                                         ?? throw new KeyNotFoundException($"Not found DbConnectionString key");
+            var configurationModel = configuration.GetSection("Settings").Get<ConfigurationModel>() 
+                                          ?? throw new ArgumentException($"Not found \'Settings\' section");
             
-            services.AddTransient<IMainDbConnection>(x => new DbProxy(new NpgsqlConnection(mainDbConnectionString)));
+            services.AddSingleton<IConfig>(x => configurationModel);
+            services.AddTransient<IMainDbConnection>(x => new DbProxy(new NpgsqlConnection(configurationModel.MainDbConnectionString)));
         }
     }
 }

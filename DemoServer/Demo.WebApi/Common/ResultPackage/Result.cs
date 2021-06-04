@@ -1,4 +1,4 @@
-﻿namespace WebApiServer.Common.ResultPackage
+﻿namespace Demo.WebApi.Common.ResultPackage
 {
     public class Result<T>
     {

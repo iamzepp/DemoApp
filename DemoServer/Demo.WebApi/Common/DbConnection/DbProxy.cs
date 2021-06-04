@@ -1,6 +1,6 @@
 ﻿using System.Data;
 
-namespace WebApiServer.Common.DbConnection
+namespace Demo.WebApi.Common.DbConnection
 {
     public class DbProxy : IMainDbConnection
     {
@@ -10,8 +10,12 @@ namespace WebApiServer.Common.DbConnection
         {
             _conncetion = connection;
         }
-        
-        public string ConnectionString { get => _conncetion.ConnectionString; set => _conncetion.ConnectionString = value; }
+
+        public string ConnectionString
+        {
+            get => _conncetion.ConnectionString; 
+            set => _conncetion.ConnectionString = value;
+        }
 
         public int ConnectionTimeout => _conncetion.ConnectionTimeout;
 

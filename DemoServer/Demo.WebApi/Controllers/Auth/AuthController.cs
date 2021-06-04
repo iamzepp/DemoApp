@@ -3,11 +3,11 @@ using System.Linq;
 using Dapper;
 using Demo.Models.Models.Auth;
 using Microsoft.AspNetCore.Mvc;
-using WebApiServer.Common.DbConnection;
-using WebApiServer.Common.Enums;
-using WebApiServer.Common.ResultPackage;
+using Demo.WebApi.Common.DbConnection;
+using Demo.WebApi.Common.Enums;
+using Demo.WebApi.Common.ResultPackage;
 
-namespace WebApiServer.Controllers.Auth
+namespace Demo.WebApi.Controllers.Auth
 {
     [ApiController]
     [Route("[controller]")]

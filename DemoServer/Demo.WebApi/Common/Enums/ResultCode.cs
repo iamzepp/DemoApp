@@ -1,4 +1,4 @@
-﻿namespace WebApiServer.Common.Enums
+﻿namespace Demo.WebApi.Common.Enums
 {
     public enum ResultCode
     {
