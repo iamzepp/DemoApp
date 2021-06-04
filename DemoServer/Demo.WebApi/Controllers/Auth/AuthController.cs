@@ -198,6 +198,5 @@ namespace Demo.WebApi.Controllers.Auth
                 };
             }
         }
-        
     }
 }

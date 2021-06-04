@@ -13,6 +13,8 @@ CREATE TABLE public.users
  CONSTRAINT users_pkey PRIMARY KEY (user_id)
 );
 
+CREATE INDEX users_email_idx ON public.users (email);
+
 -- DROP TABLE public.roles;
 CREATE TABLE public.roles 
 (

@@ -8,7 +8,7 @@ namespace Demo.WebApi.Common.Configuration
         
         public void Validate()
         {
-            if (string.IsNullOrEmpty(MainDbConnectionString)) throw new ValidationException("MainDbConnectionString is null or empty");
+            if (string.IsNullOrEmpty(MainDbConnectionString)) throw new ValidationException("MainDbConnectionString is null or empty.");
         }
     }
 }

@@ -19,8 +19,7 @@ namespace Demo.WebApi
         }
 
         public IConfiguration Configuration { get; }
-
-        // This method gets called by the runtime. Use this method to add services to the container.
+        
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
@@ -31,8 +30,7 @@ namespace Demo.WebApi
 
             RegisterInjections(services, Configuration);
         }
-
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -53,8 +51,9 @@ namespace Demo.WebApi
 
         public void RegisterInjections(IServiceCollection services, IConfiguration configuration)
         {
-            var configurationModel = configuration.GetSection("Settings").Get<ConfigurationModel>() 
-                                          ?? throw new ArgumentException($"Not found \'Settings\' section");
+            var configurationModel = 
+                configuration.GetSection("Settings").Get<ConfigurationModel>() 
+                ?? throw new ArgumentException($"Not found \'Settings\' section.");
             
             configurationModel.Validate();
             
