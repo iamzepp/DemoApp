@@ -2,6 +2,7 @@
 using System.Linq;
 using Dapper;
 using Demo.Models.Models.Auth;
+using Demo.WebApi.Common.Configuration;
 using Microsoft.AspNetCore.Mvc;
 using Demo.WebApi.Common.DbConnection;
 using Demo.WebApi.Common.Enums;
@@ -29,7 +30,7 @@ namespace Demo.WebApi.Controllers.Auth
                     @"SELECT  
                             first_name AS FirstName,
                             last_name AS LastName,
-                            emal AS Email,
+                            email AS Email,
                             birth_date AS BirthDate,
                             register_date AS RegisterDate
                       FROM public.users 
