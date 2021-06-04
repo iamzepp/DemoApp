@@ -56,6 +56,8 @@ namespace Demo.WebApi
             var configurationModel = configuration.GetSection("Settings").Get<ConfigurationModel>() 
                                           ?? throw new ArgumentException($"Not found \'Settings\' section");
             
+            configurationModel.Validate();
+            
             services.AddSingleton<IConfig>(x => configurationModel);
             services.AddTransient<IMainDbConnection>(x => new DbProxy(new NpgsqlConnection(configurationModel.MainDbConnectionString)));
         }
