@@ -24,49 +24,6 @@ namespace Demo.WebApi.Controllers.Auth
             _connection = connection;
         }
 
-        [HttpGet("GetUserInfoById")]
-        public Result<UserModel> GetUserInfoById(long userId)
-        {
-            try
-            {
-                var sql = 
-                    $@"SELECT  
-                            first_name AS {nameof(UserModel.FirstName)},
-                            last_name AS {nameof(UserModel.LastName)},
-                            email AS {nameof(UserModel.Email)},
-                            birth_date AS {nameof(UserModel.BirthDate)},
-                            register_date AS {nameof(UserModel.RegisterDate)}
-                      FROM public.users 
-                      WHERE user_id = @userId;";
-
-                using (_connection)
-                {
-                    var user = _connection.Query<UserModel>(sql, 
-                        new
-                        {
-                            userId 
-                            
-                        }).FirstOrDefault();
-
-                    return new Result<UserModel>
-                    {
-                        Data = user,
-                        Message = "Success",
-                        ResultCode = (int) ResultCode.Success
-                    };
-                }
-               
-            }
-            catch (Exception ex)
-            {
-                return new Result<UserModel>
-                {
-                    Message = ex.Message,
-                    ResultCode = (int) ResultCode.Error
-                };
-            }
-        }
-        
         [HttpPost("SignUp")]
         public Result<bool> SignUp(UserRegistrationModel user)
         {
@@ -178,13 +135,13 @@ namespace Demo.WebApi.Controllers.Auth
                         };
                     }
                     
-                    var now = DateTime.UtcNow;
-                    // создаем JWT-токен
+                    var nowDateTime = DateTime.UtcNow;
+  
                     var jwt = new JwtSecurityToken(
                         issuer: AuthOptions.ISSUER,
                         audience: AuthOptions.AUDIENCE,
-                        notBefore: now,
-                        expires: now.Add(TimeSpan.FromMinutes(AuthOptions.LIFETIME)),
+                        notBefore: nowDateTime,
+                        expires: nowDateTime.Add(TimeSpan.FromMinutes(AuthOptions.LIFETIME)),
                         signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
                     
                     var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
