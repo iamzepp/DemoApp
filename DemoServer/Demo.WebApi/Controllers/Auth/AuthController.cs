@@ -101,7 +101,7 @@ namespace Demo.WebApi.Controllers.Auth
         }
         
         [HttpPost("SignIn")]
-        public Result<string> SignIn(SignInModel model)
+        public Result<SignInResponseModel> SignIn(SignInModel model)
         {
             try
             {
@@ -117,7 +117,7 @@ namespace Demo.WebApi.Controllers.Auth
 
                     if (!result.Any())
                     {
-                        return new Result<string>
+                        return new Result<SignInResponseModel>
                         {
                             Message = "User don't sign up.",
                             ResultCode = (int) ResultCode.Error
@@ -128,7 +128,7 @@ namespace Demo.WebApi.Controllers.Auth
                     
                     if (!isCorrectPassword)
                     {
-                        return new Result<string>
+                        return new Result<SignInResponseModel>
                         {
                             Message = "Don't correct password.",
                             ResultCode = (int) ResultCode.Error
@@ -146,9 +146,9 @@ namespace Demo.WebApi.Controllers.Auth
                     
                     var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
                     
-                    return new Result<string>
+                    return new Result<SignInResponseModel>
                     {
-                        Data = encodedJwt,
+                        Data = new SignInResponseModel { Login = model.Email, JwtToken = encodedJwt },
                         Message = "Success",
                         ResultCode = (int) ResultCode.Success
                     };
@@ -157,7 +157,7 @@ namespace Demo.WebApi.Controllers.Auth
             }
             catch (Exception ex)
             {
-                return new Result<string>
+                return new Result<SignInResponseModel>
                 {
                     Message = ex.Message,
                     ResultCode = (int) ResultCode.Error

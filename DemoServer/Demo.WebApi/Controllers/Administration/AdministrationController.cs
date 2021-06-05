@@ -5,6 +5,7 @@ using Demo.Models.Models.Auth;
 using Demo.WebApi.Common.DbConnection;
 using Demo.WebApi.Common.Enums;
 using Demo.WebApi.Common.ResultPackage;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Demo.WebApi.Controllers.Administration
@@ -19,7 +20,7 @@ namespace Demo.WebApi.Controllers.Administration
         {
             _connection = connection;
         }
-
+        
         [HttpGet("GetUserInfoById")]
         public Result<UserModel> GetUserInfoById(long userId)
         {
