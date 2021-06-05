@@ -153,7 +153,6 @@ namespace Demo.WebApi.Controllers.Auth
                         ResultCode = (int) ResultCode.Success
                     };
                 }
-               
             }
             catch (Exception ex)
             {

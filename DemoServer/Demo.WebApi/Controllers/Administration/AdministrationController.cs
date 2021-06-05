@@ -5,7 +5,6 @@ using Demo.Models.Models.Auth;
 using Demo.WebApi.Common.DbConnection;
 using Demo.WebApi.Common.Enums;
 using Demo.WebApi.Common.ResultPackage;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Demo.WebApi.Controllers.Administration
@@ -38,12 +37,7 @@ namespace Demo.WebApi.Controllers.Administration
 
                 using (_connection)
                 {
-                    var user = _connection.Query<UserModel>(sql, 
-                        new
-                        {
-                            userId 
-                            
-                        }).FirstOrDefault();
+                    var user = _connection.Query<UserModel>(sql, new { userId }).FirstOrDefault();
 
                     return new Result<UserModel>
                     {
