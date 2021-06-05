@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using Dapper;
 using Demo.Models.Models.Auth;
@@ -8,6 +9,7 @@ using Demo.WebApi.Common.DbConnection;
 using Demo.WebApi.Common.Enums;
 using Demo.WebApi.Common.ResultPackage;
 using Demo.WebApi.Common.Security;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Demo.WebApi.Controllers.Auth
 {
@@ -142,7 +144,7 @@ namespace Demo.WebApi.Controllers.Auth
         }
         
         [HttpPost("SignIn")]
-        public Result<bool> SignIn(SignInModel model)
+        public Result<string> SignIn(SignInModel model)
         {
             try
             {
@@ -158,9 +160,8 @@ namespace Demo.WebApi.Controllers.Auth
 
                     if (!result.Any())
                     {
-                        return new Result<bool>
+                        return new Result<string>
                         {
-                            Data = false,
                             Message = "User don't sign up.",
                             ResultCode = (int) ResultCode.Error
                         };
@@ -170,18 +171,27 @@ namespace Demo.WebApi.Controllers.Auth
                     
                     if (!isCorrectPassword)
                     {
-                        return new Result<bool>
+                        return new Result<string>
                         {
-                            Data = false,
                             Message = "Don't correct password.",
                             ResultCode = (int) ResultCode.Error
                         };
                     }
                     
+                    var now = DateTime.UtcNow;
+                    // создаем JWT-токен
+                    var jwt = new JwtSecurityToken(
+                        issuer: AuthOptions.ISSUER,
+                        audience: AuthOptions.AUDIENCE,
+                        notBefore: now,
+                        expires: now.Add(TimeSpan.FromMinutes(AuthOptions.LIFETIME)),
+                        signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
                     
-                    return new Result<bool>
+                    var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
+                    
+                    return new Result<string>
                     {
-                        Data = true,
+                        Data = encodedJwt,
                         Message = "Success",
                         ResultCode = (int) ResultCode.Success
                     };
@@ -190,9 +200,8 @@ namespace Demo.WebApi.Controllers.Auth
             }
             catch (Exception ex)
             {
-                return new Result<bool>
+                return new Result<string>
                 {
-                    Data = false,
                     Message = ex.Message,
                     ResultCode = (int) ResultCode.Error
                 };
