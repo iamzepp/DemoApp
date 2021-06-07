@@ -59,7 +59,7 @@ namespace Demo.WebApi.Controllers.Auth
                         {
                             Data = false,
                             Message = "This email already exist.",
-                            ResultCode = (int) ResultCode.Success
+                            ResultCode = (int) ResultCode.Error
                         };
                     }
                     

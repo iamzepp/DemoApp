@@ -25,16 +25,13 @@ namespace Demo.WebApi
         
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddCors(options =>
+            services.AddControllers();
+            services.AddSwaggerGen(c =>
             {
-                options.AddPolicy("clientPolicy",
-                    builder =>
-                    {
-                        builder.WithOrigins("*")
-                            .AllowAnyHeader()
-                            .AllowAnyMethod();
-                    });
+                c.SwaggerDoc("v1", new OpenApiInfo {Title = "Demo.WebApi", Version = "v1"});
             });
+            
+            services.AddCors();
             
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
@@ -60,12 +57,6 @@ namespace Demo.WebApi
                         ValidateIssuerSigningKey = true,
                     };
                 });
-            
-            services.AddControllers();
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo {Title = "Demo.WebApi", Version = "v1"});
-            });
 
             RegisterInjections(services, Configuration);
         }
@@ -82,6 +73,8 @@ namespace Demo.WebApi
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors(builder => builder.WithOrigins("*").AllowAnyHeader().AllowAnyMethod());
 
             app.UseAuthorization();
 

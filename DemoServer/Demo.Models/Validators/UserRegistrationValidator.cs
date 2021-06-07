@@ -10,6 +10,7 @@ namespace Demo.Models.Validators
             RuleFor(x => x.LastName).NotEmpty();
             RuleFor(x => x.Email).EmailAddress();
             RuleFor(x => x.Password).NotEmpty();
+            RuleFor(x => x.BirthDate).NotEmpty();
         }
     }
 }

@@ -26,14 +26,14 @@ export const AuthPage = () => {
 
   const registerHandler = async () => {
     try {
-      const data = await request('http://localhost:5000/Auth/SignUp', 'POST', {...form})
+      const data = await request('/Auth/SignUp', 'POST', {...form})
       message(data.message)
     } catch (e) {}
   }
 
   const loginHandler = async () => {
     try {
-      const data = await request('https://localhost:44395/Auth/SignIn', 'POST', {...form})
+      const data = await request('/Auth/SignIn', 'POST', {...form})
       auth.login(data.token, data.userId)
     } catch (e) {}
   }
